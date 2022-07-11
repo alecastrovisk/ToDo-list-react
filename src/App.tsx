@@ -3,7 +3,9 @@ import logoSvg from './assets/Logo.svg';
 import styles from './App.module.css';
 
 import './global.css';
+
 import { SearchBar } from './components/SeachBar';
+import { ToDoEmpty } from './components/ToDoEmpty';
 
 function App() {
   return (
@@ -23,14 +25,8 @@ function App() {
             Concluídas <strong>0</strong>
           </span>
         </div>
-
-        <div></div>
-
-        <div> 
-          <img src="" alt="" />
-          <h1>Você ainda não tem tarefas cadastradas</h1>
-          <h1>Crie tarefas e organize seus itens a fazer</h1>
-        </div>
+        
+        <ToDoEmpty />
       </main>
     </div>
   )
