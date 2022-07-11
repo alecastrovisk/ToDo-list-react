@@ -15,12 +15,12 @@ function App() {
       <main className={styles.main}>
         <SearchBar />
         
-        <div className='tasks'>
+        <div className={styles.info}>
           <span>
-            Tarefas criadas<strong>0</strong>
+            Tarefas criadas <strong>0</strong>
           </span>
           <span>
-            Concluídas<strong>0</strong>
+            Concluídas <strong>0</strong>
           </span>
         </div>
 

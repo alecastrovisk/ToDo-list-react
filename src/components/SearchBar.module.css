@@ -1,21 +1,18 @@
 .inputContainer {
   display: flex;
 
-  max-width: 100%;
-  margin: 0 22rem;
-
-  align-self: center;
-  justify-self: center;
-
-  position: relative;
+  width: 100%;
+  justify-content: center;
+  
+  position: relative; 
   bottom: 1.68rem;
 }
 
 .input {
+  display: flex;
+  flex: 1;
+  
   background: var(--gray-500);
-
-  width: 39.25rem;
-  height: 3.37rem;
 
   margin-right: 8px;
   padding: 1rem;
@@ -24,7 +21,7 @@
 } 
 
 .button {
-  display: inline-flex;
+  display: flex;
 
   width: 90px;
   height: 52px;
