@@ -23,8 +23,20 @@
   margin-left: 1rem;
 }
 
+.checkedText {
+  text-decoration: line-through;
+}
+
 .icon:hover {
   color: var(--blue);
+}
+
+.checkedIcon {
+  color: var(--purple-dark);
+}
+
+.checkedIcon:hover  {
+  color: var(--purple);
 }
 
 .icon:last-child:hover {
