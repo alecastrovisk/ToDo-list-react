@@ -1,5 +1,8 @@
-import logoSvg from './assets/Logo.svg';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { v4 as uuidV4 } from 'uuid';
+
+import logoSvg from './assets/Logo.svg';
 import styles from './App.module.css';
 
 import './global.css';
@@ -7,27 +10,30 @@ import './global.css';
 import { SearchBar } from './components/SeachBar';
 import { ToDoEmpty } from './components/ToDoEmpty';
 import { TaskComponent } from './components/TaskComponent';
+import { PlusCircle } from 'phosphor-react';
 
-const tasks = [
-  {
-    id: '1',
-    content: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore ducimus cupiditate accusantium consequuntur? Consectetur, est dolor nesciunt doloremque quasi ipsa ad dolores quia doloribus odio, obcaecati quisquam, itaque officiis voluptates!',
-    done: false
-  },
-  {
-    id: '2',
-    content: 'Estudar React',
-    done: true
-  },
-  {
-    id: '3',
-    content: 'Estudar React',
-    done: false
-  },
+interface TaskProps {
+  // id: string;
+  content: string;
+  // isDone: boolean;
+}
 
-];
 
 function App() {
+  const [tasks, setTasks] = useState<string[]>(['']);
+  const [newTask, setNewTask] = useState('');
+
+  function handleNewTask(event: FormEvent) {
+    event.preventDefault();
+
+    setTasks([...tasks, newTask]);
+    setNewTask('');
+  }
+
+  function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
+    event.target.setCustomValidity('');
+    setNewTask(event.target.value);
+  }
   return (
     <div className="App">
       <header className={styles.teste}>
@@ -35,7 +41,22 @@ function App() {
       </header>
 
       <main className={styles.main}>
-        <SearchBar />
+        {/* <SearchBar /> */}
+        <form onSubmit={handleNewTask}>
+          <div className={styles.inputContainer}>
+            <input
+              className={styles.input}
+              placeholder="Adicione uma nova tarefa"
+              value={newTask}
+              onChange={handleNewTaskChange}
+            />
+
+            <button type='submit' className={styles.button}>
+              <p>Criar</p>
+              <PlusCircle size={16} />
+            </button>
+          </div>
+        </form>
 
         <div className={styles.info}>
           <span>
@@ -46,17 +67,23 @@ function App() {
           </span>
         </div>
 
-        {/* <ToDoEmpty /> */}
         <div>
-        {
-          tasks.map(task => 
-            <TaskComponent
-              id={task.id}
-              content={task.content}
-              isDone={task.done}
-            />
-          )
-        }
+          {
+            tasks.length === 1  ?
+              <ToDoEmpty />
+              :
+              tasks.map(task =>
+                task !== '' ?
+                <TaskComponent
+                  key={uuidV4()}
+                  id={uuidV4()}
+                  content={task}
+                  isDone={false}
+                />
+                : 
+                null
+              )
+          }
         </div>
       </main>
     </div>

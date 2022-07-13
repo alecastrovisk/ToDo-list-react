@@ -13,6 +13,7 @@
   flex: 1;
   
   background: var(--gray-500);
+  color: var(--gray-100);
 
   margin-right: 8px;
   padding: 1rem;
@@ -38,4 +39,9 @@
 
 .button text {
   font-size: 1rem;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: var(--blue);
 }

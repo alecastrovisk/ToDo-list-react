@@ -66,3 +66,52 @@
 
   margin-top: 1.56rem;
 }
+
+
+.inputContainer {
+  display: flex;
+
+  width: 100%;
+  justify-content: center;
+  
+  position: relative; 
+  bottom: 1.68rem;
+}
+
+.input {
+  display: flex;
+  flex: 1;
+  
+  background: var(--gray-500);
+  color: var(--gray-100);
+
+  margin-right: 8px;
+  padding: 1rem;
+  border: 0;
+  border-radius: 8px;
+} 
+
+.button {
+  display: flex;
+
+  width: 90px;
+  height: 52px;
+
+  align-items: center;
+  justify-content: space-evenly;
+
+  border: 0;
+  border-radius: 8px;
+
+  color: var(--gray-100);
+  background: var(--blue-dark);
+}
+
+.button text {
+  font-size: 1rem;
+}
+
+.button:hover {
+  cursor: pointer;
+  background: var(--blue);
+}
