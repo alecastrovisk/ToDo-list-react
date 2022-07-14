@@ -44,9 +44,12 @@ function App() {
     const tasksWithoutDeletedOne = tasks.filter(task =>
       task.id !== taskToDelete.id
     );
+    
+    if(taskToDelete.isDone === true) {
+      setTasksDoneCount(tasksDoneCount - 1);
+    }
 
     setTasks(tasksWithoutDeletedOne);
-
     setTasksCount(lastValue => lastValue - 1);
   }
 
@@ -62,7 +65,7 @@ function App() {
       null
 
     setTasks(updatedTasks);
-    
+
     const total = updatedTasks
     .filter(task => task.isDone === true)
     .reduce((acumullator) => {
