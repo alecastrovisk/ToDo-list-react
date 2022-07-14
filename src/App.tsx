@@ -7,7 +7,6 @@ import styles from './App.module.css';
 
 import './global.css';
 
-import { SearchBar } from './components/SeachBar';
 import { ToDoEmpty } from './components/ToDoEmpty';
 import { TaskComponent } from './components/TaskComponent';
 import { PlusCircle } from 'phosphor-react';
@@ -21,12 +20,15 @@ interface TaskProps {
 function App() {
   const [tasks, setTasks] = useState([] as TaskProps[]);
   const [newTask, setNewTask] = useState({} as TaskProps);
-  // const [tasksCount, setTasksCount] = useState(tasks.length - 1);
+  const [tasksCount, setTasksCount] = useState(tasks.length);
+  const [done, setDone] = useState(false);
+  // const [tasksDoneCount, setTasksDoneCount] = useState(0);
 
   function handleNewTask(event: FormEvent) {
     event.preventDefault();
 
     setTasks([...tasks, newTask]);
+    setTasksCount(lastValue => lastValue + 1);
   }
 
   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
@@ -35,7 +37,7 @@ function App() {
     setNewTask({
       id: uuidV4(),
       content: event.target.value,
-      isDone: false
+      isDone: done
     });
   }
 
@@ -45,7 +47,24 @@ function App() {
     );
 
     setTasks(tasksWithoutDeletedOne);
+
+    setTasksCount(lastValue => lastValue -1);
   }
+
+  function handleTaskIsDone(id: string) {
+    const updatedTasks = tasks.map(task => ({...task}));
+
+    const findTask = updatedTasks.find(task => task.id === id);
+
+    findTask ?  
+      findTask.isDone = !findTask?.isDone
+    :
+      null
+
+    setTasks(updatedTasks);
+    setDone(!done);
+  }
+
   return (
     <div className="App">
       <header className={styles.teste}>
@@ -53,7 +72,6 @@ function App() {
       </header>
 
       <main className={styles.main}>
-        {/* <SearchBar /> */}
         <form onSubmit={handleNewTask}>
           <div className={styles.inputContainer}>
             <input
@@ -72,7 +90,7 @@ function App() {
 
         <div className={styles.info}>
           <span>
-            Tarefas criadas <strong>0</strong>
+            Tarefas criadas <strong>{tasksCount}</strong>
           </span>
           <span>
             Concluídas <strong>0</strong>
@@ -89,6 +107,7 @@ function App() {
                 <TaskComponent
                   key={uuidV4()}
                   content={task.content}
+                  handleTaskIsDone={() => handleTaskIsDone(task.id)}
                   isDone={task.isDone}
                   onDelete={()=> handleDeleteTask(task)}
                 />

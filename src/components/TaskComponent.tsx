@@ -5,20 +5,15 @@ import styles from './TaskComponent.module.css';
 
 interface TaskProps {
   content: string;
-  isDone: boolean;
+  handleTaskIsDone: () => void;
   onDelete: () => void;
+  isDone: boolean;
 }
 
-export function TaskComponent({ content, isDone, onDelete }: TaskProps) {
-  const [done, setDone] = useState(isDone);
-
-  function handleTaskIsDone() {
-    setDone(!done);
-  }
-
+export function TaskComponent({ content, handleTaskIsDone, isDone, onDelete }: TaskProps) {
   return (
     <div className={styles.container}>
-      {done ?
+      {isDone ?
         <>
           <CheckCircle
             className={styles.checkedIcon}
