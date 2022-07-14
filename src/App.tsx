@@ -21,8 +21,7 @@ function App() {
   const [tasks, setTasks] = useState([] as TaskProps[]);
   const [newTask, setNewTask] = useState({} as TaskProps);
   const [tasksCount, setTasksCount] = useState(tasks.length);
-  const [done, setDone] = useState(false);
-  // const [tasksDoneCount, setTasksDoneCount] = useState(0);
+  const [tasksDoneCount, setTasksDoneCount] = useState(0);
 
   function handleNewTask(event: FormEvent) {
     event.preventDefault();
@@ -37,32 +36,40 @@ function App() {
     setNewTask({
       id: uuidV4(),
       content: event.target.value,
-      isDone: done
+      isDone: false
     });
   }
 
   function handleDeleteTask(taskToDelete: TaskProps) {
-    const tasksWithoutDeletedOne = tasks.filter(task => 
+    const tasksWithoutDeletedOne = tasks.filter(task =>
       task.id !== taskToDelete.id
     );
 
     setTasks(tasksWithoutDeletedOne);
 
-    setTasksCount(lastValue => lastValue -1);
+    setTasksCount(lastValue => lastValue - 1);
   }
 
   function handleTaskIsDone(id: string) {
-    const updatedTasks = tasks.map(task => ({...task}));
+    const updatedTasks = tasks.map(task => ({ ...task }));
 
     const findTask = updatedTasks.find(task => task.id === id);
 
-    findTask ?  
+    findTask 
+    ?
       findTask.isDone = !findTask?.isDone
     :
       null
 
     setTasks(updatedTasks);
-    setDone(!done);
+    
+    const total = updatedTasks
+    .filter(task => task.isDone === true)
+    .reduce((acumullator) => {
+      return acumullator + 1
+    }, 0);
+
+    setTasksDoneCount(total)
   }
 
   return (
@@ -93,26 +100,26 @@ function App() {
             Tarefas criadas <strong>{tasksCount}</strong>
           </span>
           <span>
-            Concluídas <strong>0</strong>
+            Concluídas <strong>{tasksDoneCount}</strong>
           </span>
         </div>
 
         <div>
           {
-            tasks.length === 0  ?
+            tasks.length === 0 ?
               <ToDoEmpty />
               :
               tasks.map(task =>
                 task.content !== '' ?
-                <TaskComponent
-                  key={uuidV4()}
-                  content={task.content}
-                  handleTaskIsDone={() => handleTaskIsDone(task.id)}
-                  isDone={task.isDone}
-                  onDelete={()=> handleDeleteTask(task)}
-                />
-                : 
-                null
+                  <TaskComponent
+                    key={uuidV4()}
+                    content={task.content}
+                    handleTaskIsDone={() => handleTaskIsDone(task.id)}
+                    isDone={task.isDone}
+                    onDelete={() => handleDeleteTask(task)}
+                  />
+                  :
+                  null
               )
           }
         </div>
