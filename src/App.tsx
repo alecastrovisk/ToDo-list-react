@@ -13,15 +13,14 @@ import { TaskComponent } from './components/TaskComponent';
 import { PlusCircle } from 'phosphor-react';
 
 interface TaskProps {
-  // id: string;
+  id: string;
   content: string;
-  // isDone: boolean;
+  isDone: boolean;
 }
-
-
 function App() {
   const [tasks, setTasks] = useState<string[]>(['']);
   const [newTask, setNewTask] = useState('');
+  const [isDone, setIsDone] = useState(false);
 
   function handleNewTask(event: FormEvent) {
     event.preventDefault();
@@ -34,6 +33,14 @@ function App() {
     event.target.setCustomValidity('');
     setNewTask(event.target.value);
   }
+
+  function handleDeleteTask(taskToDelete: string) {
+    const tasksWithoutDeletedOne = tasks.filter(task => 
+      task !== taskToDelete
+    );
+
+    setTasks(tasksWithoutDeletedOne);
+  } 
   return (
     <div className="App">
       <header className={styles.teste}>
@@ -76,9 +83,9 @@ function App() {
                 task !== '' ?
                 <TaskComponent
                   key={uuidV4()}
-                  id={uuidV4()}
                   content={task}
-                  isDone={false}
+                  isDone={isDone}
+                  onDelete={()=> handleDeleteTask(task)}
                 />
                 : 
                 null
