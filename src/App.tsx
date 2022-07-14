@@ -17,30 +17,35 @@ interface TaskProps {
   content: string;
   isDone: boolean;
 }
+
 function App() {
-  const [tasks, setTasks] = useState<string[]>(['']);
-  const [newTask, setNewTask] = useState('');
-  const [isDone, setIsDone] = useState(false);
+  const [tasks, setTasks] = useState([] as TaskProps[]);
+  const [newTask, setNewTask] = useState({} as TaskProps);
+  // const [tasksCount, setTasksCount] = useState(tasks.length - 1);
 
   function handleNewTask(event: FormEvent) {
     event.preventDefault();
 
     setTasks([...tasks, newTask]);
-    setNewTask('');
   }
 
   function handleNewTaskChange(event: ChangeEvent<HTMLInputElement>) {
     event.target.setCustomValidity('');
-    setNewTask(event.target.value);
+
+    setNewTask({
+      id: uuidV4(),
+      content: event.target.value,
+      isDone: false
+    });
   }
 
-  function handleDeleteTask(taskToDelete: string) {
+  function handleDeleteTask(taskToDelete: TaskProps) {
     const tasksWithoutDeletedOne = tasks.filter(task => 
-      task !== taskToDelete
+      task.id !== taskToDelete.id
     );
 
     setTasks(tasksWithoutDeletedOne);
-  } 
+  }
   return (
     <div className="App">
       <header className={styles.teste}>
@@ -54,7 +59,7 @@ function App() {
             <input
               className={styles.input}
               placeholder="Adicione uma nova tarefa"
-              value={newTask}
+              value={newTask.content}
               onChange={handleNewTaskChange}
             />
 
@@ -76,15 +81,15 @@ function App() {
 
         <div>
           {
-            tasks.length === 1  ?
+            tasks.length === 0  ?
               <ToDoEmpty />
               :
               tasks.map(task =>
-                task !== '' ?
+                task.content !== '' ?
                 <TaskComponent
                   key={uuidV4()}
-                  content={task}
-                  isDone={isDone}
+                  content={task.content}
+                  isDone={task.isDone}
                   onDelete={()=> handleDeleteTask(task)}
                 />
                 : 
