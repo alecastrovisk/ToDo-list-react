@@ -1,6 +1,6 @@
 # ToDo-list-react
 
-#:heavy_check_mark: ToDo List 
+:heavy_check_mark: ToDo List 
 
 This is a A wonderful todo List made with React.js
 
